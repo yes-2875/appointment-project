@@ -63,12 +63,22 @@ h1, h2 {
     background-color: rgba(255,255,255,0.2);
 }
 
-button:hover {
+button:hover, input[type="submit"]:hover {
     cursor: pointer;
+}
+
+input:hover, textarea:hover {
+    border: 2px solid lavender;
+    border-radius: 16px;
 }
 
 input[type="text"] {
     min-width: 50%;
+}
+
+input[type="time"] {
+    text-align: center;
+    font-size: 32px;
 }
 
 input, textarea {
@@ -76,12 +86,15 @@ input, textarea {
     font-size: 18px;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     max-width: 50%;
+    min-width: 100px;
     max-height: 170px;
     min-height: 24px;
     background-color: rgb(43, 43, 43);
     border: 1px solid grey;
     border-radius: 0.5em;
     padding: 8px;
+    
+    transition: border 0.1s ease-in-out, border-radius 0.1s ease-in-out;
 }
 
 #addEventContainer {

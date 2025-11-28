@@ -65,3 +65,72 @@ for (let day of calendarDays) {
         addButton.addEventListener("click", addButtonClick);
     }
 }
+
+// Define an array to store events
+let events = [];
+
+// Store event input fields and reminder list
+let eventDateInput = document.getElementById("eventDate");
+let eventTitleInput = document.getElementById("eventTitle");
+let eventTimeInput = document.getElementById("eventTime");
+let eventDescriptionInput = document.getElementById("eventDescription");
+let reminderList = document.getElementById("reminderList");
+
+// Counter to generate unique event IDs
+let eventIdCounter = 1;
+
+// Update calendar dots function - currently TODO
+function updateReminderList() {
+	return; // TODO
+}
+
+// Update reminder list function - currently TODO
+function updateReminderList() {
+	return; // TODO
+}
+
+// Function to add events
+function addEvent() {
+    if (!eventDateInput || !eventTitleInput || !eventDescriptionInput) {
+        console.error("Missing event input elements in HTML.");
+        return;
+    }
+
+	let date = eventDateInput.value;
+	let title = eventTitleInput.value;
+	let time = eventTimeInput.value;
+	let description = eventDescriptionInput.value;
+
+    if (!date || !title) {
+        alert("Date and title required");
+        return;
+    }
+
+    // Create a new event object
+    const event = {
+        id: eventIdCounter++,
+        date: date,
+		time: time;
+        title: title,
+        description: description
+    };
+
+    events.push(event); // Store event
+
+    // Reset the form
+    eventDateInput.value = "";
+    eventTitleInput.value = "";
+    eventTimeInput.value = "";
+    eventDescriptionInput.value = "";
+
+    updateCalendarDots();
+    updateReminderList();
+}
+
+// Function to delete an event by ID
+function deleteEvent(eventId) {
+	 events = events.filter(event => event.id !== id);
+
+    updateCalendarDots();
+    updateReminderList();
+}

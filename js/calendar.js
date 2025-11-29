@@ -90,6 +90,24 @@ function updateCalendarDots() {
 	return; // TODO
 }
 
+function updateCalendarItems() {
+    
+    // Remove all existing events from the calendar page
+    for (let event of document.getElementsByClassName("calendar-event")) {
+        event.remove();
+    }
+    
+    // Loop events table to add HTML elements in calendar page accordingly
+    for (let event of events) {
+        let calendarDays = document.getElementsByClassName("calendar-day");
+        calendarDays = calendarDays.filter((value) => value.innerText = event.date.day);
+        if (calendarDays.length > 0) {
+            let currentDay = calendarDays[0];
+            currentDay.innerHTML = (event.date.day) + `<button class='calendar-event'>${event.title}</>` + "<button class='add-event-button'></button>";
+        }
+    }
+}
+
 // Update reminder list function - currently TODO
 function updateReminderList() {
 	return; // TODO
@@ -115,7 +133,7 @@ function addEvent() {
     // Create a new event object
     const event = {
         id: eventIdCounter++,
-        date: [day, month],
+        date: {day: day, month: month},
 		time: time,
         title: title,
         description: description

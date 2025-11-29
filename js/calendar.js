@@ -41,6 +41,7 @@ const addEventForm = document.getElementById("addEventForm");
 const calendar = document.getElementById("calendar");
 const eventsPage = document.getElementById("eventsPage");
 const addEventContainer = document.getElementById("addEventContainer");
+let eventPageLabel = document.getElementById("eventsPageLabel")
 
 function goBackEvent(e) {
     console.log("goBack triggered");
@@ -55,7 +56,6 @@ goBackButton.addEventListener("click", goBackEvent);
 // Functionality for going to the add events page when clicking an empty day
 function addButtonClick(e) {
     let day = e.target.parentElement.innerText
-    let eventPageLabel = document.getElementById("eventsPageLabel")
     eventPageLabel.innerText = `Add/Edit Event for (${monthName}, ${day})`
     eventsPage.setAttribute("day", day);
 
@@ -135,6 +135,10 @@ function addEvent() {
     updateReminderList();
 }
 
+addEventForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+    addEvent()
+})
 
 function addTitleUpdate() {
     if (eventTitleInput.validity.valid) {

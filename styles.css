@@ -152,3 +152,20 @@ input, textarea, .largeBtn {
         padding-right: 0.1em;
     }
 }
+
+@media (width <= 550px) {
+    .calendar-container {
+        grid-auto-rows: 10vh;
+    }
+    
+    h1 {
+        margin: 0;
+    }
+}
+
+@media (height <= 550px) {
+    body {
+        padding-bottom: 0.1em;
+        padding-top: 0.1em;
+    }
+}

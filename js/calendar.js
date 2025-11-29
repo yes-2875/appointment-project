@@ -85,7 +85,7 @@ let reminderList = document.getElementById("reminderList");
 let eventIdCounter = 1;
 
 // Update calendar dots function - currently TODO
-function updateReminderList() {
+function updateCalendarDots() {
 	return; // TODO
 }
 

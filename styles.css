@@ -145,3 +145,10 @@ input, textarea, .largeBtn {
     border-radius: 2px;
     margin: 4px auto 0;
 }
+
+@media (width <= 850px) {
+    body {
+        padding-left: 0.1em;
+        padding-right: 0.1em;
+    }
+}

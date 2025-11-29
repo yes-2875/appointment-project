@@ -10,7 +10,7 @@
     </head>
     <body>
         <div id="content">
-            <div id="calendar" hidden>
+            <div id="calendar">
                 <h1 id="Month">Calendar</h1>
                 <div class="calendar-weekdays">
                     <div class="weekday">Sun</div>
@@ -70,7 +70,7 @@
                 </div>
             </div>
             
-            <div id="eventsPage">
+            <div id="eventsPage" hidden>
                 <h1 id="eventsPageLabel">Add/Edit Event for (Day, Month)</h1>
                 <div id="addEventContainer">
                     <form id="addEventForm">
@@ -83,7 +83,7 @@
                         <label for="eventDescription"><b>Description: </b></label>
                         <textarea wrap="soft" id="eventDescription" name="eventDescription" minlength=3 maxlength=100></textarea><br>
                         
-                        <input type="submit">
+                        <input type="submit" id="submitAddEvent">
                         <button class="largeBtn" id="goBack" type="button">Cancel</button>
                     </form>
                 </div>

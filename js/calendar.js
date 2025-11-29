@@ -70,10 +70,11 @@ for (let day of calendarDays) {
 let events = [];
 
 // Store event input fields and reminder list
-let eventDateInput = document.getElementById("eventDate");
-let eventTitleInput = document.getElementById("eventTitle");
+//let eventDateInput = document.getElementById("eventDate");
+let eventTitleInput = document.getElementById("eventName");
 let eventTimeInput = document.getElementById("eventTime");
 let eventDescriptionInput = document.getElementById("eventDescription");
+let eventSubmitInput = document.getElementById("submitAddEvent");
 let reminderList = document.getElementById("reminderList");
 
 // Counter to generate unique event IDs
@@ -91,18 +92,18 @@ function updateReminderList() {
 
 // Function to add events
 function addEvent() {
-    if (!eventDateInput || !eventTitleInput || !eventDescriptionInput) {
+    if (!eventTitleInput || !eventDescriptionInput) {
         console.error("Missing event input elements in HTML.");
         return;
     }
 
-	let date = eventDateInput.value;
+	//let date = eventDateInput.value;
 	let title = eventTitleInput.value;
 	let time = eventTimeInput.value;
 	let description = eventDescriptionInput.value;
 
-    if (!date || !title) {
-        alert("Date and title required");
+    if (!eventTitleInput.validity.valid || !eventTimeInput.validity.valid) {
+        alert("Title and time required");
         return;
     }
 
@@ -126,6 +127,28 @@ function addEvent() {
     updateCalendarDots();
     updateReminderList();
 }
+
+
+function addTitleUpdate() {
+    if (eventTitleInput.validity.valid) {
+        eventSubmitInput.removeAttribute("disabled");
+    }
+    else {
+        eventSubmitInput.setAttribute("disabled", "");
+    }
+}
+
+function addTimeUpdate() {
+    if (eventTimeInput.validity.valid) {
+        eventSubmitInput.removeAttribute("disabled");
+    }
+    else {
+        eventSubmitInput.setAttribute("disabled", "");
+    }
+}
+
+eventTitleInput.addEventListener("input", addTitleUpdate);
+eventTimeInput.addEventListener("input", addTimeUpdate);
 
 // Function to delete an event by ID
 function deleteEvent(eventId) {

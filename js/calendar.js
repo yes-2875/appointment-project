@@ -57,7 +57,7 @@ goBackButton.addEventListener("click", goBackEvent);
 function addButtonClick(e) {
     let day = e.target.parentElement.getAttribute("day");
     let eventPageLabel = document.getElementById("eventsPageLabel")
-    eventPageLabel.innerText = `Add/Edit Event for (${monthName}, ${day})`
+    eventPageLabel.innerText = `Add/Edit Event for ${monthName} ${day}`
     eventsPage.setAttribute("day", day);
 
     console.log("triggered addEvent");

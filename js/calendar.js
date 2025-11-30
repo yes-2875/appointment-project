@@ -27,11 +27,16 @@ monthDisp.innerText = `${monthName}, ${year}`;
 const calendarDays = document.getElementsByClassName("calendar-day");
 for (let i = 0; i < calendarDays.length; i++) {
     const day = calendarDays[i];
+    
     if (i < dayWeek) { day.innerHTML = ""; day.setAttribute("disabled", "");
 
     } else if (i-dayWeek < daysInMonth){
         day.innerHTML = ((i-dayWeek)+1) + "<button class='add-event-button'></button>";
         day.setAttribute("day", i-dayWeek +1);
+        
+        if(i-dayWeek+1 == today.getDate()) {
+            day.classList.add("today");
+        }
     } else { day.innerHTML = ""; day.setAttribute("disabled", ""); }
    
 }

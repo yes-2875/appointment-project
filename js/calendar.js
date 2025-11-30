@@ -27,11 +27,12 @@ monthDisp.innerText = `${monthName}, ${year}`;
 const calendarDays = document.getElementsByClassName("calendar-day");
 for (let i = 0; i < calendarDays.length; i++) {
     const day = calendarDays[i];
-    if (i < dayWeek) { day.innerHTML = "";
+    if (i < dayWeek) { day.innerHTML = ""; day.setAttribute("disabled", "");
 
     } else if (i-dayWeek < daysInMonth){
         day.innerHTML = ((i-dayWeek)+1) + "<button class='add-event-button'></button>";
-    } else {day.innerHTML = ""}
+        day.setAttribute("day", i-dayWeek +1);
+    } else { day.innerHTML = ""; day.setAttribute("disabled", ""); }
    
 }
 
@@ -54,7 +55,7 @@ goBackButton.addEventListener("click", goBackEvent);
 
 // Functionality for going to the add events page when clicking an empty day
 function addButtonClick(e) {
-    let day = e.target.parentElement.innerText
+    let day = e.target.parentElement.getAttribute("day");
     let eventPageLabel = document.getElementById("eventsPageLabel")
     eventPageLabel.innerText = `Add/Edit Event for (${monthName}, ${day})`
     eventsPage.setAttribute("day", day);
@@ -95,16 +96,49 @@ function updateCalendarItems() {
     // Remove all existing events from the calendar page
     for (let event of document.getElementsByClassName("calendar-event")) {
         event.remove();
+        console.log("removed event to update calendar");
     }
     
     // Loop events table to add HTML elements in calendar page accordingly
+    let calendarDays = document.getElementsByClassName("calendar-day");
+    
+    for (let i = 0; i < calendarDays.length; i++) {
+        let day = calendarDays[i];
+        if (i < dayWeek) { day.innerHTML = ""; day.setAttribute("disabled", ""); }
+        
+        else if (i-dayWeek < daysInMonth) {
+            day.innerHTML = ((i-dayWeek)+1);
+            day.setAttribute("day", i-dayWeek+1);
+        } else { day.innerHTML = ""; day.setAttribute("disabled", ""); }
+        
+        day.setAttribute("extraHTML", "");
+    }
+    
     for (let event of events) {
-        let calendarDays = document.getElementsByClassName("calendar-day");
-        calendarDays = calendarDays.filter((value) => value.innerText = event.date.day);
-        if (calendarDays.length > 0) {
-            let currentDay = calendarDays[0];
-            currentDay.innerHTML = (event.date.day) + `<button class='calendar-event'>${event.title}</>` + "<button class='add-event-button'></button>";
+        
+        let calendarDays2 = Array.from(calendarDays);
+        calendarDays2 = calendarDays2.filter((value) => value.getAttribute("day") == event.date.day);
+        console.log(calendarDays2);
+        
+        if (calendarDays2.length > 0) {
+            let currentDay = calendarDays2[0];
+            currentDay.setAttribute("extraHTML", currentDay.getAttribute("extraHTML") + `<button class='calendar-event'>${event.title}</button>`);
+
+        } else {
+            console.log("nothing in calendarDays2 filtered");
         }
+    }
+    
+    for (let day of calendarDays) {
+        let disabled = day.getAttribute("disabled");
+        if (disabled == null) {
+            console.log("true");
+            day.setAttribute("extraHTML", day.getAttribute("extraHTML") + "<button class='add-event-button'></button>");
+            day.innerHTML += day.getAttribute("extraHTML");
+            day.querySelector(".add-event-button").addEventListener("click", addButtonClick);
+        }
+        
+        day.removeAttribute("extraHTML");
     }
 }
 
@@ -142,13 +176,13 @@ function addEvent() {
     events.push(event); // Store event
 
     // Reset the form
-    eventDateInput.value = "";
     eventTitleInput.value = "";
     eventTimeInput.value = "";
     eventDescriptionInput.value = "";
 
 
     console.log(event)
+    updateCalendarItems();
     updateCalendarDots();
     updateReminderList();
 }
@@ -174,6 +208,13 @@ function addTimeUpdate() {
 
 eventTitleInput.addEventListener("input", addTitleUpdate);
 eventTimeInput.addEventListener("input", addTimeUpdate);
+addEventForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+    addEvent();
+    eventsPage.setAttribute("hidden", "");
+    calendar.removeAttribute("hidden");
+    addEventForm.reset();
+})
 
 // Function to delete an event by ID
 function deleteEvent(eventId) {

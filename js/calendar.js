@@ -80,6 +80,9 @@ for (let day of calendarDays) {
 // Define an array to store events
 let events = [];
 
+// Counter to generate unique event IDs
+let eventIdCounter = 1;
+
 // Load events from localStorage on page load
 function loadEvents() {
     const savedEventsData = localStorage.getItem("events");
@@ -109,9 +112,6 @@ let eventTimeInput = document.getElementById("eventTime");
 let eventDescriptionInput = document.getElementById("eventDescription");
 let eventSubmitInput = document.getElementById("submitAddEvent");
 let reminderList = document.getElementById("reminderList");
-
-// Counter to generate unique event IDs
-let eventIdCounter = 1;
 
 // Update calendar dots function - currently TODO
 function updateCalendarDots() {

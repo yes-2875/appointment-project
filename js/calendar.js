@@ -1,3 +1,4 @@
+@@ -1,230 +1,273 @@
 const today = new Date(); // Gets current day
 const month = today.getMonth() // Based on the day, gets the month
 const year = today.getFullYear() // Based on the day, gets the year
@@ -27,18 +28,18 @@ monthDisp.innerText = `${monthName}, ${year}`;
 const calendarDays = document.getElementsByClassName("calendar-day");
 for (let i = 0; i < calendarDays.length; i++) {
     const day = calendarDays[i];
-    
+
     if (i < dayWeek) { day.innerHTML = ""; day.setAttribute("disabled", "");
 
     } else if (i-dayWeek < daysInMonth){
         day.innerHTML = ((i-dayWeek)+1) + "<button class='add-event-button'></button>";
         day.setAttribute("day", i-dayWeek +1);
-        
+
         if(i-dayWeek+1 == today.getDate()) {
             day.classList.add("today");
         }
     } else { day.innerHTML = ""; day.setAttribute("disabled", ""); }
-   
+
 }
 
 // Functionality for adding/editing events form
@@ -97,34 +98,39 @@ function updateCalendarDots() {
 }
 
 function updateCalendarItems() {
-    
+
     // Remove all existing events from the calendar page
     for (let event of document.getElementsByClassName("calendar-event")) {
         event.remove();
         console.log("removed event to update calendar");
     }
-    
+
     // Loop events table to add HTML elements in calendar page accordingly
     let calendarDays = document.getElementsByClassName("calendar-day");
-    
+
+    let savedEvents = events; // Temporarily save events
+    events = []; // Clear events array
+    let evnts = savedEvents.filter((value) => value.date.month == month); // Filter events for current month
+    events = evnts; // Restore filtered events
+
     for (let i = 0; i < calendarDays.length; i++) {
         let day = calendarDays[i];
         if (i < dayWeek) { day.innerHTML = ""; day.setAttribute("disabled", ""); }
-        
+
         else if (i-dayWeek < daysInMonth) {
             day.innerHTML = ((i-dayWeek)+1);
             day.setAttribute("day", i-dayWeek+1);
         } else { day.innerHTML = ""; day.setAttribute("disabled", ""); }
-        
+
         day.setAttribute("extraHTML", "");
     }
-    
+
     for (let event of events) {
-        
+
         let calendarDays2 = Array.from(calendarDays);
         calendarDays2 = calendarDays2.filter((value) => value.getAttribute("day") == event.date.day);
         console.log(calendarDays2);
-        
+
         if (calendarDays2.length > 0) {
             let currentDay = calendarDays2[0];
             currentDay.setAttribute("extraHTML", currentDay.getAttribute("extraHTML") + `<button class='calendar-event'>${event.title}</button>`);
@@ -133,7 +139,7 @@ function updateCalendarItems() {
             console.log("nothing in calendarDays2 filtered");
         }
     }
-    
+
     for (let day of calendarDays) {
         let disabled = day.getAttribute("disabled");
         if (disabled == null) {
@@ -142,7 +148,7 @@ function updateCalendarItems() {
             day.innerHTML += day.getAttribute("extraHTML");
             day.querySelector(".add-event-button").addEventListener("click", addButtonClick);
         }
-        
+
         day.removeAttribute("extraHTML");
     }
 }
@@ -188,6 +194,12 @@ function addEvent() {
 
     console.log(event)
     updateCalendarItems();
+    let count = events.filter((value) => value.date.month == month).length;
+    console.log(`There are ${count} events this month`);
+    if (count > 0) {
+        day.innerHTML += `<button class='calendar-event'>${event.title}</button>`;
+    }
+
     updateCalendarDots();
     updateReminderList();
 }
@@ -200,6 +212,9 @@ function addTitleUpdate() {
     else {
         eventSubmitInput.setAttribute("disabled", "");
     }
+}
+function savedEvents() {
+    localStorage.setItem("events", JSON.stringify(events));
 }
 
 function addTimeUpdate() {

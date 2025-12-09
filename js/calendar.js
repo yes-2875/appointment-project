@@ -84,12 +84,18 @@ let events = [];
 function loadEvents() {
     const savedEventsData = localStorage.getItem("events");
     if (savedEventsData) {
-        events = JSON.parse(savedEventsData);
-        // Find the highest event ID to continue incrementing from there
-        if (events.length > 0) {
-            eventIdCounter = Math.max(...events.map(e => e.id)) + 1;
+        try {
+            events = JSON.parse(savedEventsData);
+            // Find the highest event ID to continue incrementing from there
+            if (events.length > 0) {
+                eventIdCounter = Math.max(...events.map(e => e.id)) + 1;
+            }
+            updateCalendarItems();
+        } catch (error) {
+            console.error("Failed to load events from localStorage:", error);
+            // Clear corrupted data
+            localStorage.removeItem("events");
         }
-        updateCalendarItems();
     }
 }
 

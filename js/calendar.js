@@ -1,4 +1,3 @@
-@@ -1,230 +1,273 @@
 const today = new Date(); // Gets current day
 const month = today.getMonth() // Based on the day, gets the month
 const year = today.getFullYear() // Based on the day, gets the year
@@ -80,6 +79,22 @@ for (let day of calendarDays) {
 
 // Define an array to store events
 let events = [];
+
+// Load events from localStorage on page load
+function loadEvents() {
+    const savedEventsData = localStorage.getItem("events");
+    if (savedEventsData) {
+        events = JSON.parse(savedEventsData);
+        // Find the highest event ID to continue incrementing from there
+        if (events.length > 0) {
+            eventIdCounter = Math.max(...events.map(e => e.id)) + 1;
+        }
+        updateCalendarItems();
+    }
+}
+
+// Call loadEvents when the page loads
+loadEvents();
 
 // Store event input fields and reminder list
 //let eventDateInput = document.getElementById("eventDate");
@@ -185,6 +200,7 @@ function addEvent() {
     };
 
     events.push(event); // Store event
+    savedEvents(); // Save to localStorage
 
     // Reset the form
     eventTitleInput.value = "";
@@ -238,7 +254,8 @@ addEventForm.addEventListener("submit", function(e) {
 
 // Function to delete an event by ID
 function deleteEvent(eventId) {
-	 events = events.filter(event => event.id !== id);
+	 events = events.filter(event => event.id !== eventId);
+     savedEvents(); // Save to localStorage
 
     updateCalendarDots();
     updateReminderList();

@@ -60,6 +60,10 @@ h1, h2 {
     border: 1px solid white;
     margin: 3px 5px;
 }
+.calender event:hover {
+    background-color: rgba(100, 100, 255, 0.2);
+    cursor: pointer;
+}
 
 .add-event-button:hover {
     background: linear-gradient(transparent, rgba(255,255,255, 0.05));
@@ -75,6 +79,23 @@ button:hover, input[type="submit"]:hover {
 
 input:hover, textarea:hover, .largeBtn:hover {
     border: 2px solid lavender;
+    border-radius: 16px;
+}
+.has-event {
+    border-bottom: 4px solid cornflowerblue;
+    background: red;
+    color: white;
+    padding: 2px;
+    font-size: 14px;
+    border-radius: 8px;
+    float: right;
+    margin-top: 2px;
+    margin-right: 2px;
+
+}
+input:focus, textarea:focus, .largeBtn:focus {
+    outline: none;
+    border: 2px solid cornflowerblue;
     border-radius: 16px;
 }
 
@@ -172,7 +193,16 @@ input, textarea, .largeBtn {
         padding-bottom: 0.1em;
         padding-top: 0.1em;
     }
-}
+    }
+    @media(width<=400px) {
+    .calendar-weekdays {
+        font-size: 12px;
+        padding: 5px 0;
+        margin-top: -12px;
+    }
+    }
+    
+
 
 #notificationBanner {
     position: fixed;

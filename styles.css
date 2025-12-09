@@ -194,7 +194,7 @@ input, textarea, .largeBtn {
         padding-top: 0.1em;
     }
     }
-    @media(width<=400px) {
+    @media (max-width: 400px) {
     .calendar-weekdays {
         font-size: 12px;
         padding: 5px 0;

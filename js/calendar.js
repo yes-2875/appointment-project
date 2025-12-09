@@ -1,4 +1,3 @@
-@@ -1,230 +1,273 @@
 const today = new Date(); // Gets current day
 const month = today.getMonth() // Based on the day, gets the month
 const year = today.getFullYear() // Based on the day, gets the year
@@ -108,10 +107,7 @@ function updateCalendarItems() {
     // Loop events table to add HTML elements in calendar page accordingly
     let calendarDays = document.getElementsByClassName("calendar-day");
 
-    let savedEvents = events; // Temporarily save events
-    events = []; // Clear events array
-    let evnts = savedEvents.filter((value) => value.date.month == month); // Filter events for current month
-    events = evnts; // Restore filtered events
+    let currentMonthEvents = events.filter((value) => value.date.month == month); // Filter events for current month
 
     for (let i = 0; i < calendarDays.length; i++) {
         let day = calendarDays[i];
@@ -125,7 +121,7 @@ function updateCalendarItems() {
         day.setAttribute("extraHTML", "");
     }
 
-    for (let event of events) {
+    for (let event of currentMonthEvents) {
 
         let calendarDays2 = Array.from(calendarDays);
         calendarDays2 = calendarDays2.filter((value) => value.getAttribute("day") == event.date.day);
@@ -185,6 +181,7 @@ function addEvent() {
     };
 
     events.push(event); // Store event
+    savedEvents(); // Persist to localStorage
 
     // Reset the form
     eventTitleInput.value = "";
@@ -194,11 +191,6 @@ function addEvent() {
 
     console.log(event)
     updateCalendarItems();
-    let count = events.filter((value) => value.date.month == month).length;
-    console.log(`There are ${count} events this month`);
-    if (count > 0) {
-        day.innerHTML += `<button class='calendar-event'>${event.title}</button>`;
-    }
 
     updateCalendarDots();
     updateReminderList();
@@ -239,6 +231,7 @@ addEventForm.addEventListener("submit", function(e) {
 // Function to delete an event by ID
 function deleteEvent(eventId) {
 	 events = events.filter(event => event.id !== id);
+    savedEvents(); // Persist to localStorage
 
     updateCalendarDots();
     updateReminderList();

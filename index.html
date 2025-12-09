@@ -16,6 +16,11 @@
 
         <div id="content">
             <div id="calendar">
+                <div style="text-align: center; margin-top: 15px;">
+                    <button class="navBtn" id="prevMonthBtn">&lt;</button>
+                    <span id="currentMonthYear">Month Year</span>
+                    <button class="navBtn" id="nextMonthBtn">&gt;</button>
+                </div>
                 <h1 id="Month">Calendar</h1>
                 <div class="calendar-weekdays">
                     <div class="weekday">Sun</div>
@@ -75,7 +80,7 @@
                 </div>
             </div>
             
-            <div id="eventsPage" hidden>
+            <div id="eventsPage" hidden>             
                 <h1 id="eventsPageLabel">Add/Edit Event for (Day, Month)</h1>
                 <div id="addEventContainer">
                     <form id="addEventForm">
@@ -92,6 +97,16 @@
                         <button class="largeBtn" id="goBack" type="button">Cancel</button>
                     </form>
                 </div>
+            </div>
+        </div>
+        </div id=event modal" class="modal" hidden>
+            <div class="modal-content">
+                <span class="closeBtn" id="closeModalBtn">&times;</span>
+                <h2 id="modalEventName">Event Name</h2>
+                <p id="modalEventTime">Event Time</p>
+                <p id="modalEventDescription">Event Description</p>
+                <button class="largeBtn" id="editEventBtn" type="button">Edit Event</button>
+                <button class="largeBtn" id="deleteEventBtn" type="button">Delete Event</button>
             </div>
         </div>
     </body>

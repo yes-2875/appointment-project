@@ -230,7 +230,7 @@ addEventForm.addEventListener("submit", function(e) {
 
 // Function to delete an event by ID
 function deleteEvent(eventId) {
-	 events = events.filter(event => event.id !== id);
+	 events = events.filter(event => event.id !== eventId);
     savedEvents(); // Persist to localStorage
 
     updateCalendarDots();

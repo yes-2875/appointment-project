@@ -103,13 +103,6 @@ function updateCalendarItems() {
 
     // Loop events table to add HTML elements in calendar page accordingly
     let calendarDays = document.getElementsByClassName("calendar-day");
-    
-    /*
-    let currentmonthEvents = events.filter((value) => value.date.month == month); // Temporarily save events
-    events = []; // Clear events array
-    
-    let evnts = currentmonthEvents.filter((value) => value.date.month == month); // Filter events for current month
-    events = evnts; // Restore filtered events*/
 
     for (let i = 0; i < calendarDays.length; i++) {
         let day = calendarDays[i];
@@ -192,11 +185,6 @@ function addEvent() {
 
     console.log(event)
     updateCalendarItems();
-    /*let count = events.filter((value) => value.date.month == month).length;
-    console.log(`There are ${count} events this month`);
-    if (count > 0) {
-       day.innerHTML += `<button class='calendar-event'>${event.title}</button>`;
-    }*/
 
     //updateCalendarDots();
     updateReminderList();

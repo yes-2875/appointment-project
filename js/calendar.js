@@ -228,8 +228,17 @@ function deleteEvent(eventId) {
     updateCalendarDots();
     updateReminderList();
 }
+// Add Async Notifications
+asynch function scheduleNotifications() {
+    for (let event of events) {
+        let eventDateTime = new Date( year, event.date.month,event.date.day, (event.time.split(":")[0]),(event.time.split(":")[1]) );
+        Let timeUntilEvent = eventDateTime - now;
+        // Schedule notification 10 minutes before the event
+             setTimeout(() => {showNotification(`Reminder: "${event.title}" starts in 10 minutes`);
+                }, notificationTime);
+            }
 
-// Function to show notification banner
+            //Function to show notification banner
 function showNotification(message) {
     const banner = document.getElementById("notificationBanner");
     const msg = document.getElementById("bannerMessage");

@@ -103,5 +103,23 @@
                 <button class="largeBtn" id="deleteEventBtn" type="button">Delete Event</button>
             </div>
         </div>
+
+        <div id="editEventModal" class="modal" hidden>
+            <div class="modal-content">
+               <span class="closeBtn" id="closeEditModalBtn">&times;</span>
+               <form id="editEventForm">
+                  <label for="editEventName"><b>Name*</b>:</label>
+                  <input type="text" id="editEventName" name="editEventName" minlength="3" maxlength="30" required>
+                  <label for="editEventTime"><b>Time*</b>:</label>
+                  <input type="time" id="editEventTime" name="editEventTime" required>
+                  <label for="editEventDescription"><b>Description:</b></label>
+                  <textarea id="editEventDescription" name="editEventDescription" minlength="3" maxlength="100"></textarea>
+                  <div style="margin-top: 15px;">
+                      <input type="submit" class="largeBtn" id="saveEditEventBtn" value="Save Changes">
+                       <button class="largeBtn" id="cancelEditEventBtn" type="button">Cancel</button>
+                  </div>
+                </form>
+            </div>
+        </div>
     </body>
 </html>

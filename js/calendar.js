@@ -1,4 +1,3 @@
-@@ -1,230 +1,273 @@
 const today = new Date(); // Gets current day
 const month = today.getMonth() // Based on the day, gets the month
 const year = today.getFullYear() // Based on the day, gets the year
@@ -23,7 +22,7 @@ switch(month) {
     case 10: monthName = "November"; break; // November
     case 11: monthName = "December"; break; // December
 }
-monthDisp.innerText = `${monthName}, ${year}`;
+monthDisp.innerText = `${monthName} ${year}`;
 
 const calendarDays = document.getElementsByClassName("calendar-day");
 for (let i = 0; i < calendarDays.length; i++) {
@@ -80,6 +79,8 @@ for (let day of calendarDays) {
 
 // Define an array to store events
 let events = [];
+loadEvents();
+
 
 // Store event input fields and reminder list
 //let eventDateInput = document.getElementById("eventDate");
@@ -89,13 +90,8 @@ let eventDescriptionInput = document.getElementById("eventDescription");
 let eventSubmitInput = document.getElementById("submitAddEvent");
 let reminderList = document.getElementById("reminderList");
 
-// Counter to generate unique event IDs
-let eventIdCounter = 1;
-
-// Update calendar dots function - currently TODO
-function updateCalendarDots() {
-	return; // TODO
-}
+// Counter to generate unique event IDs. Accommodate for loaded events to prevent discrepancies in IDs
+let eventIdCounter = events.length +1;
 
 function updateCalendarItems() {
 
@@ -107,11 +103,13 @@ function updateCalendarItems() {
 
     // Loop events table to add HTML elements in calendar page accordingly
     let calendarDays = document.getElementsByClassName("calendar-day");
-
-    let currentmonthEvents = events.filler((value) => value.date.month == month); // Temporarily save events
+    
+    /*
+    let currentmonthEvents = events.filter((value) => value.date.month == month); // Temporarily save events
     events = []; // Clear events array
+    
     let evnts = currentmonthEvents.filter((value) => value.date.month == month); // Filter events for current month
-    events = evnts; // Restore filtered events
+    events = evnts; // Restore filtered events*/
 
     for (let i = 0; i < calendarDays.length; i++) {
         let day = calendarDays[i];
@@ -129,7 +127,7 @@ function updateCalendarItems() {
 
         let calendarDays2 = Array.from(calendarDays);
         calendarDays2 = calendarDays2.filter((value) => value.getAttribute("day") == event.date.day);
-        console.log(calendarDays2);
+        //console.log(calendarDays2);
 
         if (calendarDays2.length > 0) {
             let currentDay = calendarDays2[0];
@@ -194,14 +192,15 @@ function addEvent() {
 
     console.log(event)
     updateCalendarItems();
-    let count = events.filter((value) => value.date.month == month).length;
+    /*let count = events.filter((value) => value.date.month == month).length;
     console.log(`There are ${count} events this month`);
     if (count > 0) {
        day.innerHTML += `<button class='calendar-event'>${event.title}</button>`;
-    }
+    }*/
 
-    updateCalendarDots();
+    //updateCalendarDots();
     updateReminderList();
+    saveEvents();
 }
 
 
@@ -213,8 +212,20 @@ function addTitleUpdate() {
         eventSubmitInput.setAttribute("disabled", "");
     }
 }
-function savedEvents() {
+function saveEvents() {
     localStorage.setItem("events", JSON.stringify(events));
+    console.log("called saveEvents()");
+}
+
+function loadEvents() {
+    
+    let saved = localStorage.getItem("events");
+    //console.log(saved);
+    
+    if (saved != null) {
+        events = JSON.parse(saved);
+        console.log("Loaded events")
+    }
 }
 
 function addTimeUpdate() {
@@ -238,8 +249,9 @@ addEventForm.addEventListener("submit", function(e) {
 
 // Function to delete an event by ID
 function deleteEvent(eventId) {
-	 events = events.filter(event => event.id !== id);
-
+    
+	events = events.filter(event => event.id !== eventId);
+    saveEvents();
     updateCalendarDots();
     updateReminderList();
 }
@@ -271,18 +283,20 @@ function checkUpcomingEvents() {
             Number(event.time.split(":")[1])
         );
 
-        const diffMs = eventDateTime - now; // Difference in milliseconds
+        const diffMs = eventDateTime.getTime() - now.getTime(); // Difference in milliseconds
         const diffMinutes = Math.floor(diffMs / 60000); // Convert to minutes
+        //console.log(diffMs);
+        //console.log(diffMinutes);
 
-        if (diffMinutes === 10) {
-            showNotification(`"${event.title}" starts in 10 minutes`); // 10-minute reminder
+        if (diffMinutes <= 10 && diffMinutes > 2) {
+            showNotification(`"${event.title}" starts in ${diffMinutes} minutes`); // 10-minute reminder
         }
-
-        if (diffMinutes === 0) {
+        else if ( (diffMinutes >= 0 && diffMinutes <= 2) || (diffMinutes < 0 && diffMinutes >= -2)) {
             showNotification(`"${event.title}" is starting now`); // Event starting now
         }
     });
 }
 
+updateCalendarItems();
 setInterval(checkUpcomingEvents, 60000);
 checkUpcomingEvents();

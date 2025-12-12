@@ -10,7 +10,7 @@ There are two main features:
     - Displays all the days of the current month, as well as the month.
     - Allows the user to click on a day to add an event, sending them to the event panel.
     - Reminder panel to remind the user of events that are about to begin
-
+<br>
 
 2. Adding events
     - Allows the user to input an event title, the time, and a description for their event.
@@ -36,7 +36,7 @@ To install, you need to have the following files in your website:
     - Project lead
     - Added majority of CSS styling for the calendar and event addition page.
     - Managed and maintained the GitHub page, making sure merges are valid and functional.
-
+<br>
 
 - Stanley (stanng66)
     - Backend/Frontend Dev
@@ -44,14 +44,14 @@ To install, you need to have the following files in your website:
     - Added CSS and JS for reminder banner
     - Adjusted CSS and HTML for edit event modal
     - Setup JS backbone for adding events
-
+<br>
 
 - Ethan (QuarantinedCheese)
     - Backend Dev
     - Filled out README
     - Added JS for calendar setup (finding date, getting month+year, counting days, graying out days not included in current month)
     - Several other minor additions in collaboration with Mirza
-
+<br>
 
 - Prabu (dheshva2020)
     - Implemented saving and loading event data

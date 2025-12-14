@@ -57,12 +57,18 @@ h1, h2 {
 .calendar-event {
     border-radius:4px;
     line-height: 1.5;
-    border: 1px solid white;
+    background-color: rgb(73, 73, 73);
+    border: 1px solid grey;
     margin: 3px 5px;
 }
-.calender-event:hover {
-    background-color: rgba(100, 100, 255, 0.2);
+
+.calendar-event:hover {
+    background-color: rgba(100, 100, 255, 0.3);
     cursor: pointer;
+}
+
+.calendar-event:focus {
+    background-color: rgba(100, 100, 255, 0.5);
 }
 
 .add-event-button:hover {
@@ -109,7 +115,7 @@ input[type="text"] {
 input[type="time"] {
     text-align: center;
     font-size: 32px;
-    min-width: max-content;
+    max-width: max-content;
 }
 
 input, textarea, .largeBtn {

@@ -49,6 +49,8 @@ const closeEditModal = document.getElementById("closeEditModalBtn");
 const addEventForm = document.getElementById("editEventForm");
 const calendar = document.getElementById("calendar");
 const editEventModal = document.getElementById("editEventModal");
+const editEventBtn = document.getElementById("editEventBtn");
+const deleteEventBtn = document.getElementById("deleteEventBtn");
 
 const eventModal = document.getElementById("eventModal");
 const eventModalName = document.getElementById("modalEventName");
@@ -90,13 +92,13 @@ for (let day of calendarDays) {
 
 // Functionality for going to the edit events module when clicking an existing calendar event
 function eventButtonClick(e) {
-    let id = e.target.getAttribute("id");
+    let id = e.target.getAttribute("eventId");
     id = parseInt(id);
     eventModal.removeAttribute("hidden");
-    eventModal.setAttribute("id", id);
+    eventModal.setAttribute("eventId", id);
     
-    if (events[id-1] != null) {
-        let event = events[id-1];
+    let event = events.find(value => value.id == id);
+    if (event != null) {
         eventModalName.innerHTML = event.title;
         eventModalTime.innerHTML = event.time;
         eventModalDescription.innerHTML = event.description;
@@ -105,6 +107,20 @@ function eventButtonClick(e) {
         console.log("This event id does not exist.");
     }
 }
+
+// Functionality for deleting the specified event with a button in the edit events modal.
+function deleteButtonClick(e) {
+    let id = eventModal.getAttribute("eventId");
+    id = parseInt(id);
+    
+    if (id != null) {
+        deleteEvent(id);
+        eventModal.setAttribute("hidden", "");
+        eventModal.removeAttribute("eventId");
+    }
+}
+
+deleteEventBtn.addEventListener("click", deleteButtonClick);
 
 // Define an array to store events
 let events = [];
@@ -153,7 +169,7 @@ function updateCalendarItems() {
 
         if (calendarDays2.length > 0) {
             let currentDay = calendarDays2[0];
-            currentDay.setAttribute("extraHTML", currentDay.getAttribute("extraHTML") + `<button class='calendar-event' id="${event.id}">${event.title}</button>`);
+            currentDay.setAttribute("extraHTML", currentDay.getAttribute("extraHTML") + `<button class='calendar-event' eventId="${event.id}">${event.title}</button>`);
 
         } else {
             console.log("nothing in calendarDays2 filtered");
@@ -233,6 +249,7 @@ function addTitleUpdate() {
         eventSubmitInput.setAttribute("disabled", "");
     }
 }
+
 function saveEvents() {
     localStorage.setItem("events", JSON.stringify(events));
     console.log("called saveEvents()");
@@ -245,7 +262,13 @@ function loadEvents() {
     
     if (saved != null) {
         events = JSON.parse(saved);
-        console.log("Loaded events")
+        // Reset the ids so that adding a new event ID in between after deleting some does not create duplicate IDs
+        for (let i = 0; i < events.length; i++) {
+            console.log(i);
+            events[i].id = i+1;
+        }
+        
+        console.log("Loaded events");
     }
 }
 
@@ -271,8 +294,15 @@ addEventForm.addEventListener("submit", function(e) {
 function deleteEvent(eventId) {
     
 	events = events.filter(event => event.id !== eventId);
+    for (let i = 0; i < events.length; i++) {
+        console.log(i);
+        events[i].id = i+1;
+    }
+    eventIdCounter = events.length +1;
+        
     saveEvents();
-    updateCalendarDots();
+    //updateCalendarDots();
+    updateCalendarItems();
     updateReminderList();
 }
 

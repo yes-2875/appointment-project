@@ -59,11 +59,14 @@ const eventModalDescription = document.getElementById("modalEventDescription");
 function goBackEvent(e) {
     console.log("goBack triggered");
     editEventModal.setAttribute("hidden", "");
+    eventModal.setAttribute("hidden", "");
     //calendar.removeAttribute("hidden");
     addEventForm.reset();
 }
 
 goBackButton.addEventListener("click", goBackEvent);
+closeModal.addEventListener("click", goBackEvent);
+closeEditModal.addEventListener("click", goBackEvent);
 
 
 // Functionality for going to the add events page when clicking an empty day
@@ -90,9 +93,10 @@ function eventButtonClick(e) {
     let id = e.target.getAttribute("id");
     id = parseInt(id);
     eventModal.removeAttribute("hidden");
+    eventModal.setAttribute("id", id);
     
-    if (events[id] != null) {
-        let event = events[id];
+    if (events[id-1] != null) {
+        let event = events[id-1];
         eventModalName.innerHTML = event.title;
         eventModalTime.innerHTML = event.time;
         eventModalDescription.innerHTML = event.description;
@@ -166,6 +170,10 @@ function updateCalendarItems() {
         }
 
         day.removeAttribute("extraHTML");
+    }
+    
+    for (let event of document.getElementsByClassName("calendar-event")) {
+        event.addEventListener("click", eventButtonClick);
     }
 }
 

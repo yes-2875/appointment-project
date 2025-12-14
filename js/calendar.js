@@ -110,7 +110,7 @@ function eventButtonClick(e) {
     let event = events.find(value => value.id == id);
     if (event != null) {
         eventModalName.innerHTML = event.title;
-        eventModalTime.innerHTML = event.time;
+        eventModalTime.innerHTML = event.time + " ⏲";
         eventModalDescription.innerHTML = event.description;
         
     } else {
@@ -138,7 +138,7 @@ function editButtonClick(e) {
     
     editEventModal.setAttribute("editing", "");
     editEventModal.setAttribute("eventId", id);
-    eventPageLabel.innerText = `Edit Event for ${monthName} ${day}`;
+    eventPageLabel.innerText = `Edit Event for ${monthName} ${event.date.day}`;
     addEventForm.reset();
     
     eventTitleInput.value = event.title;
@@ -149,11 +149,12 @@ function editButtonClick(e) {
     addTimeUpdate();
     
     editEventModal.removeAttribute("hidden");
-    eventModal.setAttribute("hidden");
+    eventModal.setAttribute("hidden", "");
     
 }
 
 deleteEventBtn.addEventListener("click", deleteButtonClick);
+editEventBtn.addEventListener("click", editButtonClick);
 
 // Define an array to store events
 let events = [];
@@ -237,6 +238,7 @@ function addEvent() {
     if (editEventModal.hasAttribute("editing")) {
         let id = editEventModal.getAttribute("eventId");
         id = parseInt(id);
+        
         let event = events.find(value => value.id == id);
         event.time = time;
         event.title = title;
@@ -259,13 +261,15 @@ function addEvent() {
     eventTitleInput.value = "";
     eventTimeInput.value = "";
     eventDescriptionInput.value = "";
-
-
-    console.log(event)
+    
+    editEventModal.removeAttribute("editing");
+    editEventModal.removeAttribute("eventId");
+    
+    console.log(event);
     updateCalendarItems();
 
     //updateCalendarDots();
-    updateReminderList();
+    //updateReminderList();
     saveEvents();
 }
 
@@ -315,11 +319,7 @@ eventTimeInput.addEventListener("input", addTimeUpdate);
 
 addEventForm.addEventListener("submit", function(e) {
     e.preventDefault();
-    if (editEventModal.hasAttribute("editing")) {
-        editEvent();
-    } else {
-        addEvent();
-    }
+    addEvent();
     editEventModal.setAttribute("hidden", "");
     addEventForm.reset();
 })
@@ -337,7 +337,7 @@ function deleteEvent(eventId) {
     saveEvents();
     //updateCalendarDots();
     updateCalendarItems();
-    updateReminderList();
+    //updateReminderList();
 }
 
 // Function to show notification banner

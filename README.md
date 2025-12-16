@@ -9,6 +9,7 @@ There are two main features:
 1. Calendar view
     - Displays all the days of the current month, as well as the month.
     - Allows the user to click on a day to add an event, sending them to the event panel.
+    - The user may also click on an existing event to edit (send back to event page), or delete it.
     - Reminder panel to remind the user of events that are about to begin
 <br>
 
@@ -35,6 +36,7 @@ To install, you need to have the following files in your website:
     - Main Frontend Dev
     - Project lead
     - Added majority of CSS styling for the calendar and event addition page.
+    - Helped in Backend with events
     - Managed and maintained the GitHub page, making sure merges are valid and functional.
     - Assisted in planning
 <br>
